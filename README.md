@@ -21,12 +21,18 @@ Bu projeyle şunları deneyimledim:
 #define DTHPORT PORTD
 #define DTHDDR DDRD
 #define DTHPINREG PIND
-// Özel mikrosaniye gecikme fonksiyonu
-void delayMicrosec(uint16_t us) {
-    uint16_t loops = us * 4;
-    while (loops--) {
-        asm("nop");
-    } 
+// I2C haberleşmeyi başlatan donksiyon
+void i2c_start() {
+    I2CDDR |= (1 << SDA_PIN | 1 << SCL_PIN);
+
+    I2CPORT |= (1 << SCL_PIN | 1 << SDA_PIN);
+    i2c_dly();
+
+    I2CPORT &= ~(1 << SDA_PIN);
+    i2c_dly();
+
+    I2CPORT &= ~(1 << SCL_PIN);
+    i2c_dly();
 }
 ```
 ### I2C Protokol Implementasyonu
