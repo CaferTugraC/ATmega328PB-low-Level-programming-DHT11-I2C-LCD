@@ -79,5 +79,6 @@ Note: For more details, please refer to the DHT11 datasheet.
 -  For educational/personal use only
 -  [EasyEDA](https://easyeda.com/)
 -  Free electronic design tool
+  
 ---
 ⭐ If you find this project useful or interesting, don’t forget to give it a star!
