@@ -6,7 +6,6 @@ Bu projeyle şunları deneyimledim:
 - AVR mikrodenetleyicilerde direkt register manipülasyonu
 - Kütüphane bağımlılığı olmadan low-level protokol implementasyonu
 - Donanım etkileşimi ve zamanlama kritik programlama
-- Gömülü sistem geliştirme en iyi uygulamaları
 ## 🛠 Kullanılan Donanım Bileşenleri
 - Arduino Uno
 - DHT11 Sıcaklık/Nem Sensörü
@@ -48,17 +47,6 @@ Bu projeyle şunları geliştirdim:
 - Kütüphane bağımlılığı olmadan **protokol implementasyonu** yetenekleri
 - Hem kod analizi hem de donanım araçları kullanarak **hata ayıklama** uzmanlığı
 - Çoklu bileşenler için **donanım entegrasyonu** becerileri
-## ⚡ Şaşırtıcı Derecede Sorunsuz Geliştirme Süreci
-İlginç bir şekilde, proje geliştirme süreci oldukça sorunsuz ilerledi. Kapsamlı araştırma ve planlama aşaması önemli ölçüde fayda sağladı:
-- DHT11 iletişim protokolünü ilk denemede doğru implemente edebildim
-- Önemli hata ayıklama gerektirmeden stabil I2C iletişimi kurabildim
-- Tüm bileşenleri minimum donanım sorunuyla entegre edebildim
-- Geliştirme süreci boyunca temiz kod mimarisini koruyabildim
-Bu beklenmedik sorunsuzluk şunların değerini gösterdi:
-- Implementasyon öncesi kapsamlı veri sayfası çalışması
-- Pin atamalarının ve kaynak tahsisinin dikkatli planlanması
-- Her bileşenin bağımsız testine olanak sağlayan modüler kod tasarımı
-- Implementasyondan önce temel kavramları anlama
 ## 🚀 Proje Yapısı
 ```
 ├── include/
@@ -74,17 +62,6 @@ Bu beklenmedik sorunsuzluk şunların değerini gösterdi:
 ```
 ## 📊 Bağlantı Şeması
 *(Buraya kendi bağlantı şemanızı ekleyebilirsiniz)*
-## 🌟 Gelecek Geliştirmeler
-Bu proje için potansiyel iyileştirmeler:
-- Enerji verimliliği optimizasyonu
-- Çoklu sensör desteği
-- Veri kaydetme özellikleri
-- Kablosuz iletişim entegrasyonu
-- Uzaktan izleme için web arayüzü
-## 📞 İletişim & Bağlantı
-Gömülü sistemler, low-level programlama veya potansiyel işbirlikleri hakkında tartışmaları memnuniyetle karşılıyorum!
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Bağlan-mavi)](https://linkedin.com/in/profiliniz)
-[![Email](https://img.shields.io/badge/Eposta-Bana%20Ulaşın-kırmızı)](mailto:eposta@alanadiniz.com)
-[![GitHub](https://img.shields.io/badge/GitHub-Takip%20Et-açıkgri)](https://github.com/kullaniciadiniz)
+
 ---
 ⭐ Bu projeyi faydalı veya ilginç bulursanız, lütfen yıldız vermeyi unutmayın!
