@@ -53,8 +53,8 @@ DTH1'den sıcaklık ve nem verisini okyabilmek için datasheetinde bulununan pro
 Bu projeyle şunları geliştirdim:
 - AVR mimarisi ve register manipülasyonu konusunda **derin anlayış**
 - Sensör iletişimi için **hassas zamanlama** becerileri
-- Kütüphane bağımlılığı olmadan **protokol implementasyonu** yetenekleri
-- Hem kod analizi hem de donanım araçları kullanarak **hata ayıklama** uzmanlığı
+- Protokollerin temelde **nasıl çalıştığı** hakkında önemli bilgiler
+- Hem kod analizi hem de donanım araçları kullanarak **hata ayıklama** deneyimi
 - Çoklu bileşenler için **donanım entegrasyonu** becerileri
 ##  Proje Yapısı
 ```
