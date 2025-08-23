@@ -74,6 +74,10 @@ Note: For more details, please refer to the DHT11 datasheet.
 ```
 ## Circuit Diagram
 <img width="1454" height="1007" alt="Screenshot 2025-08-23 133358" src="https://github.com/user-attachments/assets/8dfcf1d3-5013-457e-a3a5-8aae356b7644" /> 
-## Note - This schematic was designed using EasyEDA - For educational/personal use only - [EasyEDA](https://easyeda.com/) - Free electronic design tool
-
+## Note
+-  This schematic was designed using EasyEDA
+-  For educational/personal use only
+-  [EasyEDA](https://easyeda.com/)
+-  Free electronic design tool
+---
 ⭐ If you find this project useful or interesting, don’t forget to give it a star!
