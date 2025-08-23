@@ -2,7 +2,7 @@
 ## Project Purpose
 The purpose of this project is not only to read temperature data from the DHT11 sensor and display it on an LCD screen, but also to program the Arduino at the register level to improve my low-level programming skills and gain a deeper understanding of how protocols like I2C work at their core.
 ## Project Overview
-Through this project, I experienced:
+In this project, I practiced/learned:
 - Direct register manipulation on AVR microcontrollers  
 - Implementing low-level protocols 
 - Hardware interaction and timing-critical programming  
@@ -35,14 +35,14 @@ void i2c_start() {
 }
 ```
 ## I2C Protocol Implementation
--  I implemented the I2C protocol
+I implemented the I2C protocol: 
 -  Generating start/stop conditions
 -  Data transmission and reception
 -  Handling ACK/NACK signals
 -  Clock stretching support
 
 ## DHT Communication Protocol
--  To read temperature and humidity data from the DHT11, I implemented the protocol defined in its datasheet:
+To read temperature and humidity data from the DHT11, I implemented the protocol defined in its datasheet:
 -  MCU pulls DATA pin LOW for 18ms to send start signal
 -  MCU releases pin HIGH and waits for response
 -  DHT11 responds with a signal (LOW 80μs + HIGH 80μs)
@@ -52,7 +52,7 @@ void i2c_start() {
 Note: For more details, please refer to the DHT11 datasheet.
 
 ## Key Skills Gained
--  Through this project, I improved my:
+In this project, I practiced/learned:
 -  AVR architecture and register manipulation
 -  Precise timing skills for sensor communication
 -  Knowledge of how protocols work at a fundamental level
