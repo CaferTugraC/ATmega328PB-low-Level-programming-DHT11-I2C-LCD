@@ -1,5 +1,23 @@
+/**
+ * @file dht11.cpp
+ * @brief DHT11 sıcaklık ve nem sensöründen veri okuma fonksiyonlarının
+ *        implementasyonunu içerir.
+ */
+
 #include "dht11.h"
 
+/**
+ * @brief DHT11 sensöründen sıcaklık ve nem değerlerini okur.
+ *
+ * Sensörle haberleşme için gerekli zamanlama dizisini uygular, 5 baytlık
+ * veri paketini okur ve checksum kontrolü yapar. Hata veya zaman aşımı
+ * durumunda 255 döndürür.
+ *
+ * @param[out] temp Okunan sıcaklık değeri (°C cinsinden).
+ * @param[out] hum  Okunan bağıl nem değeri (% cinsinden).
+ *
+ * @return 0 okuma başarılı ise, 255 hata durumunda.
+ */
 int dht_read_data(int *temp, int *hum) {
   uint8_t data[5] = {0, 0, 0, 0, 0};
   uint8_t checksum = 0;
@@ -39,6 +57,15 @@ int dht_read_data(int *temp, int *hum) {
   return 255;
 }
 
+/**
+ * @brief DHT11 sensöründen tek bir bayt okur.
+ *
+ * Sensörün gönderdiği 8 biti, darbe genişliklerine göre 0 veya 1 olarak
+ * yorumlayarak geri döndürür. Herhangi bir bit okumasında zaman aşımı
+ * oluşursa 255 döndürülür.
+ *
+ * @return Okunan bayt değeri veya hata durumunda 255.
+ */
 uint8_t dht_read_byte() {
   uint8_t byte = 0;
   unsigned long time = 0;

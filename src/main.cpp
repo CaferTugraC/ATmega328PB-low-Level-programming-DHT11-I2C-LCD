@@ -1,3 +1,9 @@
+/**
+ * @file main.cpp
+ * @brief DHT11 sensöründen sıcaklık/nem okuyup, I2C üzerinden LCD ekranda
+ *        gösteren örnek uygulamanın giriş noktası.
+ */
+
 #include <Arduino.h>
 #include <avr/io.h>
 #include <stdbool.h>
@@ -7,6 +13,12 @@
 #include "dht11.h"
 #include "i2c_lcd.h"
 
+/**
+ * @brief Arduino kurulum fonksiyonu.
+ *
+ * Seri haberleşmeyi başlatır, LCD ile I2C bağlantısını test eder ve
+ * LCD'yi ilklendirerek ilk konuma hazırlar.
+ */
 void setup() {
   Serial.begin(9600);
   Serial.println("Ready.");
@@ -26,6 +38,12 @@ void setup() {
   i2c_dly();
 }
 
+/**
+ * @brief Arduino ana döngü fonksiyonu.
+ *
+ * Her saniyede bir DHT11 sensöründen sıcaklık ve nem okur, sonuçları hem
+ * seri porta yazdırır hem de LCD ekranda görüntüler.
+ */
 void loop() {
   int humidity, temperature;
   if (dht_read_data(&temperature, &humidity) == 0) {
@@ -49,6 +67,7 @@ void loop() {
   i2c_dly();
   lcd_print(hum_str);
 
-  delay(1000); // wait for 1 seconds before next read
+  delay(1000); // Wait 1 second before next read
 }
 
+ 
