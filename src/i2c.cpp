@@ -1,23 +1,22 @@
 /**
  * @file i2c.cpp
- * @brief Yazılımsal (bit-banged) I2C fonksiyonlarının implementasyonu.
+ * @brief Implementation of software (bit‑banged) I2C functions.
  */
 
 #include "i2c.h"
 
 /**
- * @brief Yaklaşık 100 kHz I2C saat frekansını sağlayacak kısa bir gecikme uygular.
+ * @brief Apply a short delay to achieve roughly a 100 kHz I2C clock.
  */
 void i2c_dly() {
-    // Hold time for ~100 kHz I2C clock
     delayMicroseconds(5);
 }
  
 /**
- * @brief I2C START koşulunu üretir.
+ * @brief Generate the I2C START condition.
  *
- * SDA hattını yüksek seviyeden düşük seviyeye çekerken SCL hattını yüksekten
- * düşüğe alarak standard I2C başlangıç sekansını oluşturur.
+ * Drives SDA from high to low while SCL is high, then pulls SCL low to
+ * begin the transfer, matching the standard I2C start sequence.
  */
 void i2c_start() {
   I2C_SDA_OUTPUT();
@@ -32,10 +31,9 @@ void i2c_start() {
 }
 
 /**
- * @brief I2C STOP koşulunu üretir.
+ * @brief Generate the I2C STOP condition.
  *
- * SCL hattını serbest bırakıp (HIGH), ardından SDA hattını da serbest
- * bırakarak veri aktarımını sonlandırır.
+ * Releases SCL (high) and then SDA (high) to terminate the transfer.
  */
 void i2c_stop() {
 
@@ -52,17 +50,17 @@ void i2c_stop() {
 }
 
 /**
- * @brief I2C veri hattı üzerinden tek bir bayt gönderir.
+ * @brief Send a single byte over the I2C data line.
  *
- * MSB'den LSB'ye doğru 8 saat darbesi boyunca veri hattına bitleri yazar.
+ * Writes bits from MSB to LSB over 8 clock cycles.
  *
- * @param byte Gönderilecek 8 bitlik değer.
+ * @param byte 8‑bit value to send.
  */
 void i2c_send_byte(uint8_t byte) {
     
     for (int i = 7; i >= 0; i--) {
       if ((byte & (1 << i)) == 0) {
-        I2C_SDA_LOW(); // Send logic 0
+        I2C_SDA_LOW();
         i2c_dly();
         I2C_SCL_FLOAT();
         i2c_dly();
@@ -79,12 +77,11 @@ void i2c_send_byte(uint8_t byte) {
   }
 
 /**
- * @brief Slave cihazdan ACK/NACK bilgisini okur.
+ * @brief Read the ACK/NACK response from the slave.
  *
- * SDA hattını girişe alıp, saat darbesi sırasında hattın çekilip çekilmediğini
- * kontrol eder.
+ * Sets SDA as input and samples it while SCL is high.
  *
- * @return 1 ACK alındıysa, 0 NACK veya hata durumunda.
+ * @return 1 if ACK received, 0 on NACK or error.
  */
 int i2c_wait_ack() {
 

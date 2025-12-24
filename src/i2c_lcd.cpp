@@ -1,55 +1,50 @@
 /**
  * @file i2c_lcd.cpp
- * @brief I2C üzerinden HD44780 uyumlu karakter LCD sürücüsünün implementasyonu.
+ * @brief Implementation of an HD44780‑compatible character LCD driver over I2C.
  */
 
 #include "i2c.h"
 #include "i2c_lcd.h"
 
 /**
- * @brief LCD'ye tek bir komut veya veri (karakter) baytı gönderir.
+ * @brief Send a single command or data (character) byte to the LCD.
  *
- * Veriyi 4-bit modda iki nibble'a bölerek I2C üzerinden iletir ve her gönderim
- * sonrasında ACK kontrolü yapar.
+ * Splits the byte into two 4‑bit nibbles and transfers them over I2C,
+ * checking for ACK after each step.
  *
- * @param data    Gönderilecek komut veya karakter verisi.
- * @param is_char true ise karakter verisi, false ise komut gönderilir.
+ * @param data    Command or character byte to send.
+ * @param is_char True to send character data, false to send a command.
  *
- * @return 1 başarı, 0 ACK alınamadığında hata.
+ * @return 1 on success, 0 if ACK is not received.
  */
 uint8_t lcd_send_data(uint8_t data, bool is_char) {
 
     uint8_t rs_config = (is_char ? RS_BIT : 0);
-    // (data & 0xF0) -> high nibble, (data << 4) & 0xF0 -> low nibble
 
-    // Set high nibble package
     uint8_t package_high_en = ((data & 0xF0) | rs_config | BL_BIT | EN_BIT);
     uint8_t package_low_en = ((data & 0xF0) | rs_config | BL_BIT);
 
-    // Send high nibble
-    i2c_send_byte(package_high_en); // High nibble with EN = 1
+    i2c_send_byte(package_high_en);
     i2c_dly();
     if (i2c_wait_ack() == 0) {
       return 0;
     }
 
-    i2c_send_byte(package_low_en); // High nibble with EN = 0
+    i2c_send_byte(package_low_en);
     i2c_dly();
     if (i2c_wait_ack() == 0) {
       return 0;
     }
 
-    // Prepare low nibble package
     package_high_en = (((data << 4) & 0xF0) | rs_config | BL_BIT | EN_BIT);
     package_low_en = (((data << 4) & 0xF0) | rs_config | BL_BIT);
-    // Send low nibble
-    i2c_send_byte(package_high_en); // Low nibble with EN = 1
+    i2c_send_byte(package_high_en);
     i2c_dly();
     if (i2c_wait_ack() == 0) {
       return 0;
     }
 
-    i2c_send_byte(package_low_en); // Low nibble with EN = 0
+    i2c_send_byte(package_low_en);
     i2c_dly();
     if (i2c_wait_ack() == 0) {
       return 0;
@@ -59,10 +54,10 @@ uint8_t lcd_send_data(uint8_t data, bool is_char) {
   }
 
   /**
-   * @brief LCD ekranı 4-bit çalışma moduna göre ilklendirir.
+   * @brief Initialize the LCD to operate in 4‑bit mode.
    *
-   * Güç verildikten sonra gerekli bekleme ve fonksiyon set, display control,
-   * entry mode ve ekran temizleme komutlarını sırasıyla gönderir.
+   * After power‑up delay, sends function set, display control,
+   * entry mode and clear display commands in sequence.
    */
   void lcd_init() {
 
@@ -73,30 +68,30 @@ uint8_t lcd_send_data(uint8_t data, bool is_char) {
     }
     i2c_dly();
 
-    lcd_send_data(0x30, false); // 8-bit mode
+    lcd_send_data(0x30, false);
     i2c_dly();
-    lcd_send_data(0x30, false); // 8-bit mode
+    lcd_send_data(0x30, false);
     i2c_dly();
-    lcd_send_data(0x30, false); // 8-bit mode
+    lcd_send_data(0x30, false);
     i2c_dly();
-    lcd_send_data(0x20, false); // Switch to 4-bit mode
+    lcd_send_data(0x20, false);
     i2c_dly();
 
-    lcd_send_data(0x28, false); // Function Set: 4-bit, 2 lines, 5x8 dots
+    lcd_send_data(0x28, false);
     delay(1);
-    lcd_send_data(0x0C, false); // Display On, Cursor Off, Blink Off
+    lcd_send_data(0x0C, false);
     delay(1);
-    lcd_send_data(0x06, false); // Entry Mode Set
+    lcd_send_data(0x06, false);
     delay(1);
-    lcd_send_data(0x01, false); // Clear Display
+    lcd_send_data(0x01, false);
     delay(5);
   }
 
   /**
-   * @brief LCD imlecini istenen sütun ve satıra konumlandırır.
+   * @brief Position the LCD cursor at the requested column and row.
    *
-   * @param col Sütun numarası (0 tabanlı).
-   * @param row Satır numarası (0: birinci satır, 1: ikinci satır).
+   * @param col Column index (0‑based).
+   * @param row Row index (0: first line, 1: second line, etc.).
    */
   void lcd_setCursor(uint8_t col, uint8_t row) {
     uint8_t address = (row == 0) ? 0x80 + col : 0xC0 + col;
@@ -105,9 +100,9 @@ uint8_t lcd_send_data(uint8_t data, bool is_char) {
   }
 
   /**
-   * @brief Verilen C-string'i LCD'ye karakter karakter yazar.
+   * @brief Write the given C‑string to the LCD character by character.
    *
-   * @param str Yazdırılacak null-sonlandırılmış karakter dizisi.
+   * @param str Null‑terminated string to write.
    */
   void lcd_print(const char* str) {
 
