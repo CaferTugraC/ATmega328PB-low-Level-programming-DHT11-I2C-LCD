@@ -6,64 +6,66 @@ void i2c_dly() {
 }
 
 void i2c_start() {
-    I2CDDR |= (1 << SDA_PIN | 1 << SCL_PIN); // set sda as output
+  I2C_SDA_OUTPUT();
+  I2C_SCL_OUTPUT();
 
-    I2CPORT |= (1 << SCL_PIN | 1 << SDA_PIN);
-    i2c_dly();
+  I2C_SDA_LOW();
+  i2c_dly();
 
-    I2CPORT &= ~(1 << SDA_PIN); // sda line as low
-    i2c_dly();
+  I2C_SCL_LOW();
+  i2c_dly();
 
-    I2CPORT &= ~(1 << SCL_PIN); // scl line as low
-    i2c_dly();
+//    I2CPORT |= (1 << SCL_PIN | 1 << SDA_PIN);
+//    i2c_dly();
 }
 
 void i2c_stop() {
 
-    I2CDDR |= (1 << SDA_PIN | 1 << SCL_PIN); // set sda as output
+  I2C_SDA_OUTPUT();
+  I2C_SCL_OUTPUT();
 
-    I2CPORT &= ~(1 << SDA_PIN);
-    i2c_dly();
+  I2C_SDA_LOW();
+  i2c_dly();
 
-    I2CPORT |= (1 << SCL_PIN);
-    i2c_dly();
-  
-    I2CPORT |= (1 << SDA_PIN);
+  I2C_SCL_FLOAT();
+  i2c_dly();
+
+  I2C_SDA_FLOAT();
 }
 
 void i2c_send_byte(uint8_t byte) {
     
     for (int i = 7; i >= 0; i--) {
       if ((byte & (1 << i)) == 0) {
-        I2CPORT &= ~(1 << SDA_PIN); // send 0 bit
+        I2C_SDA_LOW(); // send 0 bit
         i2c_dly();
-        I2CPORT |= (1 << SCL_PIN);
+        I2C_SCL_FLOAT();
         i2c_dly();
-        I2CPORT &= ~(1 << SCL_PIN);
+        I2C_SCL_LOW();
       }
       else {
-        I2CPORT |= (1 << SDA_PIN); // send 1 bit
+        I2C_SDA_FLOAT();
         i2c_dly();
-        I2CPORT |= (1 << SCL_PIN);
+        I2C_SCL_FLOAT();
         i2c_dly();
-        I2CPORT &= ~(1 << SCL_PIN);
+        I2C_SCL_LOW();  
       }
     }
   }
 
 int i2c_wait_ack() {
 
-    I2CDDR &= ~(1 << SDA_PIN); // sda set as input
+    I2C_SDA_INPUT();
     
-    I2CPORT |= (1 << SCL_PIN); // scl high
+    I2C_SCL_FLOAT();
     i2c_dly();
 
     int ack = !(I2CPINREG & (1 << SDA_PIN));
 
-    I2CPORT &= ~(1 << SCL_PIN); // scl low again
+    I2C_SCL_LOW();
     i2c_dly();
 
-    I2CDDR |= (1 << SDA_PIN); // sda set as output again
+    I2C_SDA_OUTPUT();
 
     return ack;
 } 

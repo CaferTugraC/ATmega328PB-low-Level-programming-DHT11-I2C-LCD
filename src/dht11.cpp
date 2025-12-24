@@ -1,32 +1,31 @@
-#include "dth11.h"
+#include "dht11.h"
 
-int dth_read_data(int *temp, int *hum) {
+int dht_read_data(int *temp, int *hum) {
   uint8_t data[5] = {0, 0, 0, 0, 0};
   uint8_t checksum = 0;
   unsigned long time = 0;
 
-  DTHDDR |= (1 << DTH11_PIN); // DTH pinini çıkık olarak ayarla
+  DHT_PIN_OUTPUT();
 
-  DTHPORT &= ~(1 << DTH11_PIN); // DTH pinin low yap - dthye hazırlan sinyali ver
+  DHT_PIN_LOW();
   delayMicroseconds(18000);
 
-  DTHPORT |= (1 << DTH11_PIN); // DTH pinini High yap - dthye veriyi gönder sinyali ver
+  DHT_PIN_HIGH();
   delayMicroseconds(40);
 
-  DTHDDR &= ~(1 << DTH11_PIN); // DTH pinini giriş olarak ayarla - dthden veri almak için input yap
-
+  DHT_PIN_INPUT();
   time = micros();
-  while (!(DTHPINREG & (1 << DTH11_PIN))) {
+  while (!(DHTPINREG & (1 << DHT11_PIN))) {
     if (micros() - time > 100) return 255; // 80us low - dth ölçüm için hazırlanıyor
   }
 
   time = micros();
-  while ((DTHPINREG & (1 << DTH11_PIN))) {
+  while ((DHTPINREG & (1 << DHT11_PIN))) {
     if (micros() - time > 100) return 255; // 80us high - dth veri göndermek için hazırlanıyor
   }
   
   for (int i = 0; i < 5; i++) {
-    data[i] = dth_read_byte();
+    data[i] = dht_read_byte();
     if (data[i] == 255) return 255;
   }
 
@@ -40,18 +39,18 @@ int dth_read_data(int *temp, int *hum) {
   return 255;
 }
 
-uint8_t dth_read_byte() {
+uint8_t dht_read_byte() {
   uint8_t byte = 0;
   unsigned long time = 0;
 
   for (int i = 0; i < 8; i++) {
     time = micros();
-    while (!(DTHPINREG & (1 << DTH11_PIN))) {
+    while (!(DHTPINREG & (1 << DHT11_PIN))) {
       if (micros() - time > 100) return 255;
     }
 
     unsigned long responseTime = micros();
-    while (DTHPINREG & (1 << DTH11_PIN)) {
+    while (DHTPINREG & (1 << DHT11_PIN)) {
       if (micros() - responseTime > 100) return 255;
     }
 

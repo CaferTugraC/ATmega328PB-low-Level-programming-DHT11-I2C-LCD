@@ -4,11 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 #include "i2c.h"
-#include "dth11.h"
+#include "dht11.h"
 #include "i2c_lcd.h"
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
   Serial.println("Ready.");
   i2c_start();
@@ -28,9 +27,8 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
   int humidity, temperature;
-  if (dth_read_data(&temperature, &humidity) == 0) {
+  if (dht_read_data(&temperature, &humidity) == 0) {
     Serial.print("Temperature: ");
     Serial.print(temperature);
     Serial.print(" °C, Humidity: ");
